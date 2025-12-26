@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para ti, con cariño 💜</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: "Georgia", serif;
+    background:
+        linear-gradient(45deg, rgba(138, 99, 184, 0.06) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(138, 99, 184, 0.06) 25%, transparent 25%),
+        linear-gradient(180deg, #f6f0ff, #fdfaff);
+    background-size: 40px 40px, 40px 40px, cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #ffffffdd;
+    padding: 30px 40px;
+    border-radius: 22px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    text-align: center;
+    max-width: 620px;
+}
+
+h1 {
+    color: #8a63b8;
+    margin-bottom: 8px;
+}
+
+.sub {
+    font-style: italic;
+    color: #666;
+    margin-bottom: 25px;
+}
+
+/* GRID */
+.flowers {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    justify-items: center;
+}
+
+/* GERBERA (contenedor principal) */
+.gerbera {
+    width: 80px;
+    height: 80px;
+    cursor: pointer;
+    animation: bloom 1.2s ease-out forwards;
+    transform: scale(0);
+}
+
+/* capa interna animable */
+.flower-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 0.65s ease;
+}
+
+/* giro sutil al pasar el mouse */
+.gerbera:hover .flower-inner {
+    transform: rotate(24deg);
+}
+
+/* PETALS */
+.petal {
+    position: absolute;
+    width: 20px;
+    height: 42px;
+    background: linear-gradient(to bottom, #e1d1ff, #b596e6);
+    border-radius: 50% 50% 40% 40%;
+    top: 4px;
+    left: 50%;
+    transform-origin: 50% 42px;
+    opacity: 0.95;
+}
+
+/* CENTER */
+.center {
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background: radial-gradient(circle, #fff3c4, #d6b56a);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-15%, -30%);
+    box-shadow: inset 0 0 4px rgba(0,0,0,0.2);
+}
+
+/* MESSAGE */
+.message {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 16px;
+    background: #fff;
+    color: #555;
+    min-height: 90px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+    transition: opacity 0.3s;
+}
+
+/* FLORECER */
+@keyframes bloom {
+    0% {
+        transform: scale(0) rotate(-15deg);
+        opacity: 0;
+    }
+    60% {
+        transform: scale(1.1) rotate(4deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Para ti, con cariño 💜</h1>
+    <p class="sub">Elige una gerbera y deja que hable por mí.</p>
+
+    <div class="flowers">
+        <div class="gerbera" onclick="showMessage(0)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(1)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(2)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(3)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(4)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(5)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(6)"><div class="flower-inner"></div></div>
+        <div class="gerbera" onclick="showMessage(7)"><div class="flower-inner"></div></div>
+    </div>
+
+    <div class="message" id="message">
+        Aquí florece un mensaje 💜
+    </div>
+</div>
+
+<!-- AUDIO: Magic Shop (se repite constantemente) -->
+<audio id="music" loop>
+    <source src="magic-shop.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const messages = [
+    "Que la vida te abrace con calma y te regale días suaves.",
+    "Te quiero desde un lugar sereno, donde solo importa que estés bien.",
+    "Ojalá nunca olvides la luz que llevas, incluso cuando dudas.",
+    "Estoy aquí, sin ruido, deseando que todo te florezca.",
+    "Que tus pasos encuentren sentido y tu corazón descanso.",
+    "Hay afectos que no piden nada, solo cuidan.",
+    "Esta gerbera guarda un deseo simple: paz, luz y cariño para ti.",
+    "Y si algún día dudas, recuerda que alguien te desea siempre bien."
+];
+
+// crear pétalos y centro dentro de flower-inner
+document.querySelectorAll(".flower-inner").forEach((inner, index) => {
+    inner.parentElement.style.animationDelay = `${index * 0.15}s`;
+
+    for (let i = 0; i < 12; i++) {
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.style.transform = `rotate(${i * 30}deg)`;
+        inner.appendChild(p);
+    }
+
+    const c = document.createElement("div");
+    c.className = "center";
+    inner.appendChild(c);
+});
+
+function showMessage(i) {
+    const box = document.getElementById("message");
+    const music = document.getElementById("music");
+
+    if (music.paused) {
+        music.volume = 0.35; // suave y constante
+        music.play();
+    }
+
+    box.style.opacity = 0;
+    setTimeout(() => {
+        box.textContent = messages[i];
+        box.style.opacity = 1;
+    }, 200);
+}
+</script>
+</body>
+</html>
